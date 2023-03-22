@@ -5,19 +5,25 @@ const commands = require('./src/commands');
 const messageCb = require('./src/onEvent/message');
 
 const commandsArr = Object.entries(commands);
+const launch = async () => {
+  try {
+    const bot = new Telegraf(process.env.BOT_TOKEN, { username: 'ExerciseBot' });
 
-const bot = new Telegraf(process.env.BOT_TOKEN, { username: 'ExerciseBot' });
+    bot.use(session());
 
-bot.use(session());
+    commandsArr.forEach(([command, cb]) => {
+      bot.command(command, cb);
+    });
 
-commandsArr.forEach(([command, cb]) => {
-  bot.command(command, cb);
-});
+    bot.on(message('text'), messageCb);
 
-bot.on(message('text'), messageCb);
+    bot.launch();
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-bot.launch();
-
+launch();
 // Enable graceful stop
 process.once('SIGINT', () => bot.stop('SIGINT'));
 process.once('SIGTERM', () => bot.stop('SIGTERM'));
