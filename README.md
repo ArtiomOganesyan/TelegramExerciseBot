@@ -7,8 +7,8 @@ TelegramExerciseBot is a small pet project that allows a group of friends to cha
 1. Clone the repository.
 2. Install the dependencies using `npm install`.
 3. Create a `.env` file and add the following environment variables:
-   BOT_TOKEN=<your_bot_token>
-   DB_URI=<your_db_connection>
+   - BOT_TOKEN=<your_bot_token>
+   - DB_URI=<your_db_connection>
 4. Run the bot using `npm start`.
 
 ## Usage
