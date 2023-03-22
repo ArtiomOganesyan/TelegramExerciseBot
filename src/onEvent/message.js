@@ -15,7 +15,8 @@ function messageCb(ctx) {
           const [sit, push, plank] = text[0].match(/\d+/g);
           const lastWorkout = user.Workouts[0];
           if (
-            lastWorkout.createdAt.toLocaleDateString() === (new Date()).toLocaleDateString()
+            lastWorkout
+             && lastWorkout.createdAt.toLocaleDateString() === (new Date()).toLocaleDateString()
           ) {
             return Workout.update(
               {
@@ -38,13 +39,13 @@ function messageCb(ctx) {
       })
       .then((workout) => {
         if (workout) {
-          const msgs = ['WOW!', 'Great Job!', 'Push It!', 'You got it!'];
+          const msgs = ['Ух ты!', 'Отличная работа!', 'Давай еще!', 'Молодец!'];
           ctx.reply(msgs[Math.floor(Math.random() * msgs.length)]);
         }
       })
       .catch((err) => {
         console.log(err);
-        ctx.reply('Something went wrong... we are on it boss.');
+        ctx.reply('Что-то пошло не так... Босс, мы фиксим.');
       });
   }
 }

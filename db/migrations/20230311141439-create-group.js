@@ -1,33 +1,15 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Workouts', {
+    await queryInterface.createTable('Groups', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      sit: {
-        type: Sequelize.INTEGER,
-        defaultValue: 0,
-      },
-      push: {
-        type: Sequelize.INTEGER,
-        defaultValue: 0,
-      },
-      plank: {
-        type: Sequelize.INTEGER,
-        defaultValue: 0,
-      },
-      userId: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'Users',
-          key: 'id',
-        },
-        allowNull: false,
-        onDelete: 'cascade',
+      title: {
+        type: Sequelize.STRING,
       },
       createdAt: {
         allowNull: false,
@@ -41,6 +23,6 @@ module.exports = {
   },
   // eslint-disable-next-line no-unused-vars
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Workouts');
+    await queryInterface.dropTable('Groups');
   },
 };

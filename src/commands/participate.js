@@ -1,23 +1,25 @@
 const getUserName = require('../selectors/getUserName');
-const { User } = require('../../db/models');
+const { User, Group, UserGroup } = require('../../db/models');
 const { participateSuccess, participateDuplicate, participateError } = require('../constants/text');
+const getChatTitle = require('../selectors/getChatTitle');
 
-function participate(ctx) {
-  User
-    .create({ username: getUserName(ctx) })
+async function participate(ctx) {
+  try {
+    const [group] = await Group.findOrCreate({ where: { title: getChatTitle(ctx) } });
+    const [user] = await User.findOrCreate({ where: { username: getUserName(ctx) } });
     // eslint-disable-next-line no-unused-vars
-    .then((data) => {
-      ctx.reply(`${getUserName(ctx)} ${participateSuccess}`);
-    })
-    .catch((err) => {
-      // 23505 is a code for validation of uniqueness. Code is provided by Sequelize.
-      if (err.original.code === '23505') {
-        ctx.reply(`${getUserName(ctx)} ${participateDuplicate}`);
-        return;
-      }
-      console.log(err);
-      ctx.reply(`${getUserName(ctx)} ${participateError}`);
-    });
+    const [userGroup, newParticipation] = await UserGroup.findOrCreate(
+      { where: { groupId: group.id, userId: user.id } },
+    );
+
+    if (!newParticipation) {
+      ctx.reply(`${getUserName(ctx)} ${participateDuplicate}`);
+      return;
+    }
+    ctx.reply(`${getUserName(ctx)} ${participateSuccess}`);
+  } catch (error) {
+    ctx.reply(`${getUserName(ctx)} ${participateError}`);
+  }
 }
 
 module.exports = participate;

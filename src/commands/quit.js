@@ -7,11 +7,15 @@ function quit(ctx) {
     .destroy({ where: { username } })
     // eslint-disable-next-line no-unused-vars
     .then((result) => {
-      ctx.reply(`${username} you progress was deleted.`);
+      if (result) {
+        ctx.reply(`${username} ваш прогресс удалён.`);
+        return;
+      }
+      ctx.reply(`${username} вы не участвуете.`);
     })
     .catch((err) => {
       console.log(err);
-      ctx.reply("Boss, there is a problem. We're on it.");
+      ctx.reply('Босс, кажется есть проблема. Мы фиксим.');
     });
 }
 
