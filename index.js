@@ -18,6 +18,8 @@ const launch = async () => {
     bot.on(message('text'), messageCb);
 
     bot.launch();
+    process.once('SIGINT', () => bot.stop('SIGINT'));
+    process.once('SIGTERM', () => bot.stop('SIGTERM'));
   } catch (error) {
     console.log(error);
   }
@@ -25,5 +27,3 @@ const launch = async () => {
 
 launch();
 // Enable graceful stop
-process.once('SIGINT', () => bot.stop('SIGINT'));
-process.once('SIGTERM', () => bot.stop('SIGTERM'));
