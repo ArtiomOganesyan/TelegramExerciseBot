@@ -1,5 +1,5 @@
 require('dotenv').config();
-const { session, Telegraf } = require('telegraf');
+const { Telegraf } = require('telegraf');
 const { message } = require('telegraf/filters');
 const commands = require('./src/commands');
 const messageCb = require('./src/onEvent/message');
@@ -8,8 +8,6 @@ const commandsArr = Object.entries(commands);
 const launch = async () => {
   try {
     const bot = new Telegraf(process.env.BOT_TOKEN, { username: 'ExerciseBot' });
-
-    bot.use(session());
 
     commandsArr.forEach(([command, cb]) => {
       bot.command(command, cb);
@@ -26,4 +24,3 @@ const launch = async () => {
 };
 
 launch();
-// Enable graceful stop

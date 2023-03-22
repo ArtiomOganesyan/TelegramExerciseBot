@@ -48,7 +48,7 @@ async function leaders(ctx) {
     ctx.reply(result);
   } catch (error) {
     console.log(error);
-    ctx.reply("У нас тут проблемка.")
+    ctx.reply('У нас тут проблемка.');
   }
 }
 
